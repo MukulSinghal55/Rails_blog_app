@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+    <strong>Title:</strong>
+    <%=@blog.title%>
+</p>
+<p>
+    <strong>Content:</strong>
+    <%=@blog.content%>
+</p>
+<p>
+    <strong>User:</strong>
+    <%=@blog.user.name%>
+</p>
+<%= link_to 'Edit', edit_blog_path(@blog) %> |
+<%= link_to 'Back', blogs_path %>
+
+<h1>Comments</h1>
+
+ 
+ <%= form_for @new_comment,url:"/comment" do |f| %>
+
+    <div class="field">
+    <%=f.label :message%>
+    <%=f.text_area :message%>
+    </div>
+    <%= f.hidden_field :blog_id, :value => @blog.id %>
+    <%= f.hidden_field :user_id, :value => 3 %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+
+<% @comments.each do |comment| %>
+
+<p>
+    <%=comment.message%> 
+    <strong>User:</strong>
+    <%=comment.user.name%>
+    
+    <%= link_to 'Destroy', '/delete_comment/'+comment.id.to_s, method: :post %>
+    
+</p>
+<%end%>
+   
+
+
