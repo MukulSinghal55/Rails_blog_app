@@ -12,7 +12,11 @@
     <strong>User:</strong>
     <%=@blog.user.name%>
 </p>
+
+<%if user_signed_in? && current_user.id==@blog.user_id%>
 <%= link_to 'Edit', edit_blog_path(@blog) %> |
+<%end%>
+
 <%= link_to 'Back', blogs_path %>
 
 <h1>Comments</h1>
@@ -25,7 +29,7 @@
     <%=f.text_area :message%>
     </div>
     <%= f.hidden_field :blog_id, :value => @blog.id %>
-    <%= f.hidden_field :user_id, :value => 3 %>
+    <%= f.hidden_field :user_id, :value => current_user.id if user_signed_in?%>
   <div class="actions">
     <%= f.submit %>
   </div>
@@ -39,11 +43,15 @@
     <%=comment.message%> 
     <strong>User:</strong>
     <%=comment.user.name%>
-    
+
+    <%if user_signed_in? && current_user.id==comment.user_id%>
     <%= link_to 'Destroy', '/delete_comment/'+comment.id.to_s, method: :post %>
-    
+    <%end%>
+
 </p>
 <%end%>
+
+<%#=current_user.name%>
    
 
 

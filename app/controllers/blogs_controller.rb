@@ -1,5 +1,6 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!,only: %w(create_comment delete_comment new edit create update destroy)
 
   # GET /blogs
   # GET /blogs.json
@@ -27,7 +28,6 @@ class BlogsController < ApplicationController
 
     @new_comment=Comment.new
     
-    puts @comments
   end
 
   # GET /blogs/new
