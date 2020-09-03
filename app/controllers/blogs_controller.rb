@@ -15,7 +15,13 @@ class BlogsController < ApplicationController
   end
 
   def delete_comment
+    
     @comment = Comment.find(params[:id])
+
+    if current_user.id != @comment.user_id
+      redirect_to @blog
+    end
+
     @blog=@comment.blog
     @comment.destroy
     redirect_to @blog
@@ -45,7 +51,7 @@ class BlogsController < ApplicationController
     @blog = Blog.new(blog_params)
 
     respond_to do |format|
-      if @blog.save
+      if @blog.user_id == current_user.id && @blog.save
         format.html { redirect_to @blog, notice: 'Blog was successfully created.' }
         format.json { render :show, status: :created, location: @blog }
       else
@@ -59,7 +65,7 @@ class BlogsController < ApplicationController
   # PATCH/PUT /blogs/1.json
   def update
     respond_to do |format|
-      if @blog.update(blog_params)
+      if @blog.user_id == current_user.id && @blog.update(blog_params)
         format.html { redirect_to @blog, notice: 'Blog was successfully updated.' }
         format.json { render :show, status: :ok, location: @blog }
       else
@@ -72,9 +78,14 @@ class BlogsController < ApplicationController
   # DELETE /blogs/1
   # DELETE /blogs/1.json
   def destroy
-    @blog.destroy
+    if @blog.user_id == current_user.id
+      @blog.destroy
+      notice='Blog was successfully destroyed.'
+    else
+      notice='Not authorized to access this blog' 
+    end
     respond_to do |format|
-      format.html { redirect_to blogs_url, notice: 'Blog was successfully destroyed.' }
+      format.html { redirect_to blogs_url, notice: notice }
       format.json { head :no_content }
     end
   end

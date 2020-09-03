@@ -1,32 +1,29 @@
-<p id="notice"><%= notice %></p>
+<!---<p id="notice"><%= notice %></p>-->
 
-<h1>Blogs</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
+
+   <div>
+  <button class="btn btn-outline-secondary"><%= link_to 'Create New Blog', new_blog_path %></button>
+  </div>
+
     <% @blogs.each do |blog| %>
-      <tr>
-        <td><%=blog.id%></td>
-        <td><%= blog.title%></td>
-        <td> by <%=link_to blog.user.name,blog.user%>
-      </tr>
-      <tr>
-        <td><%= link_to 'Show', blog %></td>
+    <div class="jumbotron">
+      
+        <h1><%= link_to blog.title, blog %></h1>
+        <p> by<i> <%=link_to blog.user.name,blog.user%></i><p>
+    
+      
+        <p><p>
         <%if user_signed_in? && current_user.id==blog.user_id%>
-        <td><%= link_to 'Edit', edit_blog_path(blog) %></td>
-        <td><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <button class="btn btn-outline-secondary"><%= link_to 'Edit', edit_blog_path(blog) %></button>
+        <button class="btn btn-outline-danger"><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></button>
         <%end%>
-      </tr>
+    
+      </div>
     <% end %>
-  </tbody>
-</table>
+ 
 
 <br>
 
-<%= link_to 'New Blog', new_blog_path %>
+

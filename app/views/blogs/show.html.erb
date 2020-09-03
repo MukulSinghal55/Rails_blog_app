@@ -1,56 +1,60 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-    <strong>Title:</strong>
+<!--<p id="notice"><%= notice %></p>-->
+<div class="jumbotron">
+<h1>
     <%=@blog.title%>
-</p>
+</h1>
 <p>
-    <strong>Content:</strong>
+    
     <%=@blog.content%>
 </p>
 <p>
-    <strong>User:</strong>
-    <%=@blog.user.name%>
+  <i> by <%=@blog.user.name%></i>
 </p>
 
 <%if user_signed_in? && current_user.id==@blog.user_id%>
-<%= link_to 'Edit', edit_blog_path(@blog) %> |
+<button class="btn btn-outline-secondary"><%= link_to 'Edit', edit_blog_path(@blog) %></button> |
 <%end%>
-
+<button class="btn btn-outline-secondary">
 <%= link_to 'Back', blogs_path %>
+</button>
 
-<h1>Comments</h1>
+</div>
+
+
+<div >
+<h1 class="container text-center">Comments</h1>
 
  
- <%= form_for @new_comment,url:"/comment" do |f| %>
+ <%= form_for @new_comment,url:"/comment", class:"form-group shadow-textarea" do |f| %>
 
     <div class="field">
-    <%=f.label :message%>
-    <%=f.text_area :message%>
+    
+    <%=f.text_area :message ,class:"form-control z-depth-1",rows:3 ,placeholder:"Write something here..."%>
     </div>
     <%= f.hidden_field :blog_id, :value => @blog.id %>
     <%= f.hidden_field :user_id, :value => current_user.id if user_signed_in?%>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="actions text-right">
+    <%= f.submit class:"btn btn-outline-secondary" %>
   </div>
 <% end %>
 
 
-
+<ul class="list-group">
 <% @comments.each do |comment| %>
 
-<p>
+<li class="list-group-item">
     <%=comment.message%> 
-    <strong>User:</strong>
+    
     <%=comment.user.name%>
 
     <%if user_signed_in? && current_user.id==comment.user_id%>
     <%= link_to 'Destroy', '/delete_comment/'+comment.id.to_s, method: :post %>
     <%end%>
 
-</p>
+</li>
 <%end%>
-
+</ul>
+</div>
 <%#=current_user.name%>
    
 
