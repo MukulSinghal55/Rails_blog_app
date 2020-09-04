@@ -5,12 +5,14 @@ class BlogsController < ApplicationController
   # GET /blogs
   # GET /blogs.json
   def index
-    @blogs = Blog.all
+    @blogs = Blog.all.order('created_at DESC')
   end
   
   def create_comment
     @comment=Comment.new(params.require(:comment).permit(:message,:blog_id,:user_id))
-    @comment.save
+    if !@comment.save
+      flash[:alert]="Comment empty!!"
+    end
     redirect_to @comment.blog  
   end
 

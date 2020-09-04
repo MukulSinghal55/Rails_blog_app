@@ -1,14 +1,15 @@
 <!--<p id="notice"><%= notice %></p>-->
 <div class="jumbotron">
-<h1>
+<h1 class="text-center">
     <%=@blog.title%>
 </h1>
+<hr class="my-4">
 <p>
     
     <%=@blog.content%>
 </p>
-<p>
-  <i> by <%=@blog.user.name%></i>
+<p class=text-right>
+  <i> by <%= link_to @blog.user.name,@blog.user%><%=" "+@blog.created_at.strftime('%B %d, %Y')%></i>
 </p>
 
 <%if user_signed_in? && current_user.id==@blog.user_id%>
@@ -24,7 +25,7 @@
 <div >
 <h1 class="container text-center">Comments</h1>
 
- 
+
  <%= form_for @new_comment,url:"/comment", class:"form-group shadow-textarea" do |f| %>
 
     <div class="field">
@@ -34,22 +35,29 @@
     <%= f.hidden_field :blog_id, :value => @blog.id %>
     <%= f.hidden_field :user_id, :value => current_user.id if user_signed_in?%>
   <div class="actions text-right">
-    <%= f.submit class:"btn btn-outline-secondary" %>
+    <%= f.submit class:"btn btn-primary" %>
   </div>
 <% end %>
+
+<!-- alert for comment empty-->
+ <%if notice%>
+  <p class="notice alert alert-danger"><%=flash[:alert] %></p>
+  <%end%>
 
 
 <ul class="list-group">
 <% @comments.each do |comment| %>
 
 <li class="list-group-item">
-    <%=comment.message%> 
+   
     
-    <%=comment.user.name%>
-
+   <p><%=link_to comment.user.name,comment.user%><%="    "+ comment.created_at.strftime(' %H:%M , %B %d, %Y')%></p>
+    <p><%=comment.message%> </p>
+     <div class ="text-right">
     <%if user_signed_in? && current_user.id==comment.user_id%>
-    <%= link_to 'Destroy', '/delete_comment/'+comment.id.to_s, method: :post %>
+    <button class="btn btn-outline-primary"><%= link_to 'Delete', '/delete_comment/'+comment.id.to_s, method: :post %></button>
     <%end%>
+    </div>
 
 </li>
 <%end%>
