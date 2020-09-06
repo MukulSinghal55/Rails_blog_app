@@ -1,14 +1,14 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
   <h1><%= link_to 'Blogs',root_path, class:"navbar-brand" %></h1>
     <form>
     <% if user_signed_in? %>
     <div style="padding-left: 10px;">
     Logged in as <strong><%= current_user.name %></strong>
     <%if current_user.admin %>
-    <%= link_to 'Dashboard',users_path,class: 'btn btn-primary'%>
+    <%= link_to 'Dashboard',users_path,class: 'btn btn-info'%>
     <%end%>
 
-    <%= link_to 'Edit profile', edit_user_registration_path, :class => 'btn btn-primary' %> 
+    <%= link_to 'Edit profile', edit_user_registration_path, :class => 'btn btn-dark' %> 
     <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'btn btn-success'  %>
     <%else%>
     <div style="padding-left: 10px;">
