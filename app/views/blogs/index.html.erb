@@ -2,25 +2,28 @@
 
 
 
-
+<br>
    <div class="text-right">
-  <button class="btn btn-outline-secondary"><%= link_to 'Create New Blog', new_blog_path %></button>
+  <%= link_to 'Create New Blog', new_blog_path,class:"btn btn-primary" %>
   </div>
+  <br>
 
     <% @blogs.each do |blog| %>
     <div class="jumbotron">
       
         <h1><%= link_to blog.title, blog %></h1>
         
-
+        <%if blog.user%>
         <span >
        by<i> <%=link_to blog.user.name,blog.user%></i><%=" "+blog.created_at.strftime('%B %d, %Y')%>
-    </span>
-      
+       </span>
+       <%else%>
+       <span>by<i> Annonymous</i> <%=" "+blog.created_at.strftime('%B %d, %Y')%>
+      <%end%>
         <p><p>
         <%if user_signed_in? && current_user.id==blog.user_id%>
-        <button class="btn btn-outline-secondary"><%= link_to 'Edit', edit_blog_path(blog) %></button>
-        <button class="btn btn-outline-danger"><%= link_to 'Delete', blog, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+      <%= link_to 'Edit', edit_blog_path(blog), class:"btn btn-primary"%>
+    <%= link_to 'Delete', blog,class:"btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %>
         <%end%>
     
       </div>

@@ -1,7 +1,7 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!,only: %w(create_comment delete_comment new edit create update destroy)
-
+  
   # GET /blogs
   # GET /blogs.json
   def index
@@ -102,4 +102,5 @@ class BlogsController < ApplicationController
     def blog_params
       params.require(:blog).permit(:title,:content,:user_id)
     end
+
 end

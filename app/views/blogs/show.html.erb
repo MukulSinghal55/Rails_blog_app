@@ -9,15 +9,19 @@
     <%=@blog.content%>
 </p>
 <p class=text-right>
+ <%if @blog.user%>
   <i> by <%= link_to @blog.user.name,@blog.user%><%=" "+@blog.created_at.strftime('%B %d, %Y')%></i>
+<%else%>
+  <i> by Annonymous <%=" "+@blog.created_at.strftime('%B %d, %Y')%></i>
+  <%end%>
 </p>
 
 <%if user_signed_in? && current_user.id==@blog.user_id%>
-<button class="btn btn-outline-secondary"><%= link_to 'Edit', edit_blog_path(@blog) %></button> |
+<%= link_to 'Edit', edit_blog_path(@blog),class:"btn btn-primary" %>|
 <%end%>
-<button class="btn btn-outline-secondary">
-<%= link_to 'Back', blogs_path %>
-</button>
+
+<%= link_to 'Back', blogs_path ,class:"btn btn-primary"%>
+
 
 </div>
 
@@ -34,9 +38,11 @@
     </div>
     <%= f.hidden_field :blog_id, :value => @blog.id %>
     <%= f.hidden_field :user_id, :value => current_user.id if user_signed_in?%>
+    <br>
   <div class="actions text-right">
     <%= f.submit class:"btn btn-primary" %>
   </div>
+  <br>
 <% end %>
 
 <!-- alert for comment empty-->
@@ -51,11 +57,13 @@
 <li class="list-group-item">
    
     
-   <p><%=link_to comment.user.name,comment.user%><%="    "+ comment.created_at.strftime(' %H:%M , %B %d, %Y')%></p>
+   <p><%if comment.user%><%=link_to comment.user.name,comment.user %>
+   <%else%>Annonymous<%end%>
+   <%="    "+ comment.created_at.strftime(' %H:%M , %B %d, %Y')%></p>
     <p><%=comment.message%> </p>
      <div class ="text-right">
-    <%if user_signed_in? && current_user.id==comment.user_id%>
-    <button class="btn btn-outline-primary"><%= link_to 'Delete', '/delete_comment/'+comment.id.to_s, method: :post %></button>
+    <%if user_signed_in? && (current_user.admin||current_user.id==comment.user_id)%>
+    <%= link_to 'Delete', '/delete_comment/'+comment.id.to_s,class:"btn btn-danger", method: :post %>
     <%end%>
     </div>
 

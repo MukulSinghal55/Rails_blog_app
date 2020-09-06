@@ -1,0 +1,23 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Created At</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+     <% users.each do |user| %>
+      <tr>
+        
+        <td><%=link_to user.name.capitalize(), user %></td>
+        <td><%=user.created_at.strftime('%B %d, %Y')%></td>
+        <td><%= link_to 'Delete', user,class:"btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+   
+        
+   
+    <% end %>
+
+  </tbody>
+  </table>
