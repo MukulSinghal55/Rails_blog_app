@@ -6,6 +6,7 @@ gem 'rename'
 gem 'devise'
 gem 'bootstrap'
 gem 'jquery-rails'
+gem 'sidekiq'
 
 gem 'mailcatcher'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

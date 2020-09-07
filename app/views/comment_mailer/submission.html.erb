@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+   
+    <p><%=@comment.user.name%><%="    "+ @comment.created_at.strftime(' %H:%M , %B %d, %Y')%></p>
+    <p>Comment : <%=@comment.message%>
+  </body>
+</html>

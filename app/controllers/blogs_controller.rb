@@ -12,7 +12,10 @@ class BlogsController < ApplicationController
     @comment=Comment.new(params.require(:comment).permit(:message,:blog_id,:user_id))
     if !@comment.save
       flash[:alert]="Comment empty!!"
+    else
+      MailCommentJob.perform_later @comment
     end
+
     redirect_to @comment.blog  
   end
 
