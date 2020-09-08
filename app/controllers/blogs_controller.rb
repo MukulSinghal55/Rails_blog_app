@@ -13,7 +13,10 @@ class BlogsController < ApplicationController
     if !@comment.save
       flash[:alert]="Comment empty!!"
     else
-      MailCommentJob.perform_later @comment
+      if @comment.blog.user
+        MailCommentJob.perform_later @comment.id
+      end
+
     end
 
     redirect_to @comment.blog  
